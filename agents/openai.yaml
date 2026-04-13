@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vue Strong Rules"
+  short_description: "Implement Vue tasks with composable-first placement"
+  default_prompt: "Use $vue-composable-strong-rules to implement this Vue task with practical composable-first placement rules, minimal compliant scope, and explicit architecture conflict handling."
