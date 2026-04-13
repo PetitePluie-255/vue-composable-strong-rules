@@ -1,5 +1,7 @@
 # Vue Composable Strong Rules
 
+[中文说明](./README.zh-CN.md)
+
 `vue-composable-strong-rules` is a Vue architecture skill focused on **logic placement**, **boundary discipline**, and **feature-local splitting**.
 
 It is designed for Vue implementation work where the main question is not only "can this be built?" but also "where should this logic live?".
