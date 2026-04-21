@@ -37,7 +37,7 @@ AI response:
 
 ## Fix
 
-**Step 1: Ship the smallest compliant change**
+**Step 1: Ship the smallest boundary-correct change**
 ```
 User request: "Add a date filter to the order list page"
 
@@ -76,11 +76,11 @@ This is out of scope for this task. Want me to create a follow-up?
 
 | Change type | Risk | Action |
 |---|---|---|
-| Public API signature change | Breaks downstream consumers | ⛔ Ask before editing |
-| Shared type/interface change | Breaks dependent modules | ⛔ Ask before editing |
-| Directory reorganization | Breaks imports project-wide | ⛔ Ask before editing |
-| Global store schema change | Breaks persistence/hydration | ⛔ Ask before editing |
-| Renaming exported functions | Breaks external consumers | ⛔ Ask before editing |
+| Public API signature change | Breaks downstream consumers | ⛔ Confirm before editing |
+| Shared type/interface change | Breaks dependent modules | ⛔ Confirm before editing |
+| Directory reorganization | Breaks imports project-wide | ⛔ Confirm before editing |
+| Global store schema change | Breaks persistence/hydration | ⛔ Confirm before editing |
+| Renaming exported functions | Breaks external consumers | ⛔ Confirm before editing |
 
 ## Allowed Without Extra Confirmation
 
@@ -90,6 +90,35 @@ These are usually still within scope when they are the smallest way to keep boun
 - splitting one overweight feature composable into smaller feature-local composables
 - creating a new feature-local composable to avoid keeping async or synchronization logic in a component
 - adjusting imports inside the same feature after such a local extraction
+
+## When This Conflicts With Boundary-Correct Path Priority
+
+This rule and [minimum-compliant-architecture-priority](minimum-compliant-architecture-priority.md) can appear to conflict:
+
+- `scope-guard-refactors` says do not widen scope unnecessarily
+- `minimum-compliant-architecture-priority` says do not preserve the wrong boundary just to keep the diff small
+
+Use this tie-breaker:
+
+- if the feature can ship in the correct layer without widening scope, do that
+- if the current host is not viable, allow the smallest feature-local boundary correction required to make the change correct
+- if the "fix" would rename APIs, reorganize directories, or clean up neighboring modules that are not needed for the requested behavior, stop and keep that work out of scope
+
+### Example
+
+```text
+User request: "Add bulk retry to the failed jobs page"
+
+Current structure:
+- FailedJobsPage.vue already mixes list fetch, retry mutation, filter state, and modal coordination
+
+Correct resolution:
+- Extract only the retry workflow into a feature-local composable
+- Rewire the page to use that composable
+- Do not also rename existing composables or reorganize the feature directory
+```
+
+The extraction is in scope because the current host cannot accept more behavior cleanly. The broader cleanup is out of scope because it is not required to ship the requested behavior in the correct layer.
 
 ## Reference
 

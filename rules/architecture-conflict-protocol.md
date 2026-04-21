@@ -96,7 +96,7 @@ export function useOrderPage() {
 Architecture conflict: <what the request asks for> conflicts with
 <which rule> because <why it violates the rule>.
 
-Compliant alternative: <smallest compliant change that satisfies the intent
+Compliant alternative: <smallest boundary-correct change that satisfies the intent
 while respecting the rule. Include a local boundary correction first if the
 current structure cannot host the change cleanly>.
 

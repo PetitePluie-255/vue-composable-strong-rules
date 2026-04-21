@@ -1,4 +1,4 @@
 interface:
   display_name: "Vue Strong Rules"
-  short_description: "Implement Vue tasks with composable-first placement"
-  default_prompt: "Use $vue-composable-strong-rules to implement this Vue task with practical composable-first placement rules, minimal compliant scope, and explicit architecture conflict handling."
+  short_description: "Judgment-first Vue implementation with strong boundaries"
+  default_prompt: "Use $vue-composable-strong-rules to implement this Vue task as a judgment-first, high-quality implementer: state the intended behavior, implementation path, and key risks before editing; ask or confirm when thresholds are crossed; then apply the smallest compliant Vue architecture with explicit coverage for normal flow, failure handling, and boundary conditions."

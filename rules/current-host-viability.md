@@ -10,7 +10,7 @@ tags: host, boundary, overload, drift, architecture, placement
 
 **Impact: HIGH** — prevents agents from treating an already overloaded component or composable as a compliant host for one more change
 
-Before choosing the smallest compliant architecture, determine whether the current host is still a valid place for more logic.
+Before choosing the smallest boundary-correct path, determine whether the current host is still a valid place for more logic.
 
 If the current component or composable is already overloaded, mixing independently changing concerns, or showing obvious boundary drift, it is **not** a compliant host for additional behavior even when the new diff is small.
 
@@ -39,7 +39,7 @@ Do not ask only "can this new code fit here?"
 
 Also ask "is this host still healthy enough to accept more code at all?"
 
-If the host is not healthy, the smallest compliant architecture must include the smallest feature-local extraction or split needed to restore a valid boundary first.
+If the host is not healthy, the smallest boundary-correct path must include the smallest feature-local extraction or split needed to restore a valid boundary first.
 
 ## Example
 

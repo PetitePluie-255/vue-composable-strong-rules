@@ -78,6 +78,38 @@ export function useUserPage() {
 If **yes** → it is a hollow wrapper. Do not extract.
 If **no** → it provides real value. Keep it.
 
+## Narrow Exception
+
+A page-level wrapper may remain acceptable when its main value is **not** orchestration, but a narrowly-scoped boundary purpose such as:
+
+- dependency injection for test replacement
+- a stable seam for test isolation
+- explicit type narrowing or adapter shaping at the page boundary
+
+This exception is narrow:
+
+- the wrapper must declare that intent clearly in its name or comment
+- the wrapper must expose a deliberate boundary, not just rename exports
+- "maybe useful later" is not enough
+
+### Example
+
+```ts
+// useUserPageGateway.ts
+// Intent: stable test seam for replacing page-level user sources in integration tests.
+export function useUserPageGateway(deps: UserPageDeps = defaultDeps) {
+  const user = deps.useUser()
+  const roles = deps.useRoles()
+
+  return {
+    user: user.user,
+    roles: roles.roles,
+  }
+}
+```
+
+If the wrapper exists only to gather and re-export values with no explicit boundary purpose, it is still hollow and should be removed.
+
 ## Reference
 
 - [Vue Composables](https://vuejs.org/guide/reusability/composables.html)

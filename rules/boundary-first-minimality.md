@@ -14,7 +14,7 @@ In this skill, "minimal" means the smallest change that keeps logic in the corre
 
 ## Why This Rule Exists
 
-Without this rule, an agent can misread "hold scope" and "smallest compliant implementation" as:
+Without this rule, an agent can misread "hold scope" and "smallest boundary-correct implementation" as:
 
 - keep logic where it already lives, even if that layer is wrong
 - patch the current component or view first, then clean up later

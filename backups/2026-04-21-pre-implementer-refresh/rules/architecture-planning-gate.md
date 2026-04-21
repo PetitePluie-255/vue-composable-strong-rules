@@ -10,9 +10,7 @@ tags: planning, architecture, boundary, placement, feature-local
 
 **Impact: HIGH** — forces a lightweight feature-local plan before editing without turning every Vue change into a docs task
 
-Before editing Vue implementation code, do a short architecture plan. In this skill, that plan usually lives inside the pre-edit implementation judgment rather than in a separate document.
-
-The goal is not a formal spec. The goal is to prevent edits from starting before the placement and split decisions are clear.
+Before editing Vue implementation code, do a short architecture plan. The goal is not a formal spec. The goal is to prevent edits from starting before the placement and split decisions are clear.
 
 ## Required Planning Questions
 
@@ -25,7 +23,7 @@ Answer these before editing:
 5. Does the current structure already violate those boundaries?
 6. If yes, what is the smallest feature-local correction needed before implementing?
 
-Keep this planning lightweight. In many tasks it can be a few sentences or a short checklist attached to the implementation judgment.
+Keep this planning lightweight. In many tasks it can be a few sentences or a short internal checklist.
 
 ## Do Not Over-Plan
 
@@ -47,11 +45,10 @@ Write a plan document only when:
 
 - Flag edits that begin coding before the placement decision is clear.
 - Do not demand heavyweight planning artifacts for routine feature-local work.
-- Prefer "show the implementation judgment and boundary plan first" over "write a full spec."
+- Prefer "show the boundary plan first" over "write a full spec."
 
 ## Reference
 
-- [implementation-judgment-first](implementation-judgment-first.md)
 - [minimum-compliant-architecture-priority](minimum-compliant-architecture-priority.md)
 - [boundary-first-minimality](boundary-first-minimality.md)
 - [repository-convention-first](repository-convention-first.md)

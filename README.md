@@ -2,18 +2,25 @@
 
 [中文说明](./README.zh-CN.md)
 
-`vue-composable-strong-rules` is a Vue architecture skill focused on **logic placement**, **boundary discipline**, and **feature-local splitting**.
+`vue-composable-strong-rules` is a Vue implementation skill focused on **judgment-first execution**, **boundary discipline**, and **quality coverage**.
 
-It is designed for Vue implementation work where the main question is not only "can this be built?" but also "where should this logic live?".
+It is designed for Vue work where the questions are both:
+
+- "where should this logic live?"
+- "what should be decided and stated before coding starts?"
 
 ## Purpose
 
-This skill exists to keep Vue codebases on a strong-boundary path:
+This skill exists to keep Vue codebases on a strong-boundary path while also enforcing a higher implementation bar:
 
+- implementation judgment comes before editing
+- ambiguity is surfaced before code, not after
+- high-impact changes require confirmation
+- behavior-changing work must cover normal flow, failure handling, and boundary conditions
 - views keep screen-specific glue
 - reusable or growing workflow logic moves into feature-local composables
 - overloaded hosts are treated as invalid boundaries for new behavior
-- the smallest compliant architecture outranks the smallest diff
+- boundary-correct implementation outranks the smallest diff
 
 The skill intentionally treats Vue SFC work with a stricter engineering bar, closer to React-style concern splitting and Java-style responsibility discipline than script-style accumulation.
 
@@ -35,59 +42,77 @@ Skip it only for purely presentational changes such as:
 
 ## What This Skill Decides
 
-This skill helps decide whether logic should stay in:
+This skill decides:
 
+- what behavior is actually being changed
+- whether implementation can proceed now, needs a question, or needs confirmation
 - a view
 - a feature-local composable
 - a feature-local helper
 - `provide/inject`
 - a store
 
-It also decides when the current host is already too heavy and must be split before more behavior is added.
+These options answer where the logic should stay.
 
-## Core Position
+It also decides:
 
-The central architectural stance is:
+- when the current host is already too heavy and must be split first
+- which failure paths and edge conditions are relevant to the current task
+- what the smallest boundary-correct Vue implementation is
 
-- Vue SFC syntax does not lower the architecture bar
-- existing local precedent is weak evidence
-- "the code already lives here" is not a valid reason to preserve a drifting boundary
-- small feature changes to old pages are exactly where boundary drift must be corrected
+## Structure
 
-## Rule Groups
+The skill is organized around four layers:
 
-The skill is organized around these groups:
+- `Identity`
+  Strong-rule, high-quality, judgment-first implementer.
+- `Decision Protocol`
+  State understanding, implementation path, and risks before editing. Ask or confirm when thresholds are crossed.
+- `Implementation Quality Contract`
+  Cover normal flow, failure handling, and boundary conditions for behavior-changing work.
+- `Domain Rules`
+  Existing Vue composable, state-placement, and boundary rules.
 
-- State & Scope
-  Covers view vs composable vs `provide/inject` vs store placement.
-- Composable Design
-  Covers composable size, orchestration, splitting, and reusable business-unit extraction.
-- Lifecycle & Safety
-  Covers cleanup of watchers, timers, listeners, and long-lived subscriptions.
-- Scope Discipline
-  Covers strong-boundary defaults, lightweight planning, host viability, minimal compliant architecture, and conflict handling.
+## Rule Highlights
 
-## Key Rules
+The most important rules in this skill are now:
 
-The most important rules in this skill are:
-
-- [strong-boundary-default](./rules/strong-boundary-default.md)
+- [implementation-judgment-first](./rules/implementation-judgment-first.md)
+- [decision-thresholds](./rules/decision-thresholds.md)
+- [implementation-quality-contract](./rules/implementation-quality-contract.md)
 - [architecture-planning-gate](./rules/architecture-planning-gate.md)
-- [current-host-viability](./rules/current-host-viability.md)
 - [minimum-compliant-architecture-priority](./rules/minimum-compliant-architecture-priority.md)
-- [boundary-first-minimality](./rules/boundary-first-minimality.md)
-- [composable-weight-boundary](./rules/composable-weight-boundary.md)
+- [current-host-viability](./rules/current-host-viability.md)
 
-## Decision Flow
+## Relationship To Other Skills
+
+This skill intentionally does **not** duplicate the full workflows of:
+
+- `superpowers:brainstorming`
+- `superpowers:test-driven-development`
+- `superpowers:systematic-debugging`
+- `superpowers:verification-before-completion`
+
+Instead, it keeps the Vue-local judgment:
+
+- whether to ask
+- whether to confirm
+- what quality coverage is relevant
+- where the logic should live
+- what the smallest boundary-correct Vue implementation is
+
+## Default Flow
 
 For implementation work, the expected flow is:
 
 1. Read local project rules and repository conventions.
-2. Apply the strong-boundary default.
-3. Do a lightweight feature-local architecture plan.
-4. Check whether the current host is still viable.
-5. Compare the smallest diff against the smallest compliant architecture.
-6. If the host is overloaded or the diff preserves the wrong layer, do the smallest feature-local correction first.
+2. Produce the implementation judgment before editing.
+3. Decide whether to proceed, ask, or confirm.
+4. Apply the strong-boundary default and lightweight architecture plan.
+5. Check whether the current host is still viable.
+6. Compare the smallest diff against the smallest boundary-correct path.
+7. If the host is overloaded or the diff preserves the wrong layer, do the smallest feature-local correction first.
+8. Implement with explicit quality coverage.
 
 ## Planning Policy
 
@@ -105,6 +130,14 @@ Write a formal plan only when:
 
 If this skill fails in real use, file issues against one of these failure modes:
 
+- missing judgment
+  The skill started coding before behavior, path, and risks were explicit.
+- missed ask
+  The skill should have asked before editing, but inferred a product choice.
+- missed confirmation
+  The skill crossed a high-impact threshold without confirming first.
+- quality gap
+  The skill implemented only the happy path and skipped relevant failure handling or edge cases.
 - false trigger
   The skill was applied to a purely presentational task.
 - missed trigger
@@ -119,7 +152,7 @@ If this skill fails in real use, file issues against one of these failure modes:
 ## Files
 
 - [SKILL.md](./SKILL.md)
-  Main skill entrypoint, trigger guidance, procedure, and output contract.
+  Main skill entrypoint, trigger guidance, implementation judgment flow, and output contract.
 - [rules/](./rules)
   Focused rule documents used by the main skill.
 - [agents/openai.yaml](./agents/openai.yaml)
